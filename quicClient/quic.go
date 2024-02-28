@@ -3,7 +3,6 @@ package quicClient
 import (
 	"context"
 	"crypto/tls"
-	"encoding/json"
 	"fmt"
 	"github.com/quic-go/quic-go"
 	"io"
@@ -20,7 +19,7 @@ func Initialize(address string) *QClient {
 	}
 }
 
-func (q *QClient) DialQuic(ctx context.Context) error {
+func (q *QClient) DialQuic(ctx context.Context, data []byte) error {
 	//ctx, cancel := context.WithTimeout(ctx, 3*time.Second) // 3s handshake timeout
 	//defer cancel()
 	//targetAddr, err := net.ResolveUDPAddr("udp4", q.TargetAddr)
@@ -59,22 +58,22 @@ func (q *QClient) DialQuic(ctx context.Context) error {
 		log.Printf("have strId = %v", str.StreamID())
 	}
 	defer str.Close()
-	line, _ := json.Marshal(Line{
-		Source:       "ss",
-		SourceIsCore: false,
-		SourceScene:  "test",
-		Target:       "tt",
-		TargetIsCore: false,
-		TargetScene:  "test",
-		Dependence:   "weak",
-	})
-	_, err = str.Write(line)
+
+	//line, _ := json.Marshal(Line{
+	//	Source:       "ss",
+	//	SourceIsCore: false,
+	//	SourceScene:  "test",
+	//	Target:       "tt",
+	//	TargetIsCore: false,
+	//	TargetScene:  "test",
+	//	Dependence:   "weak",
+	//})
+	_, err = str.Write(data)
 	if err != nil {
 		log.Printf("InitializeClient Write err = %v", err)
 		return err
 	}
-
-	buf := make([]byte, len(line))
+	buf := make([]byte, len(data))
 	_, err = io.ReadFull(str, buf)
 	if err != nil {
 		log.Printf("InitializeClient ReadFull err = %v", err)

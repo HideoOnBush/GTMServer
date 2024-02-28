@@ -2,13 +2,20 @@ package main
 
 import (
 	"GTMServer/quicClient"
-	"context"
-	"log"
+	"GTMServer/tracer"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+	"net/http"
+	"time"
 )
 
 var (
 	q *quicClient.QClient
 )
+
+var chBuffSize int = 10
+var flushTime time.Duration = 5 * time.Second
+var serviceName = "GTMServerTom"
 
 func main() {
 	// We start a server echoing data on the first stream the client opens,
@@ -18,29 +25,24 @@ func main() {
 	//if err != nil {
 	//	panic(err)
 	//}
-
 	q = quicClient.Initialize("127.0.0.1:2234")
-	err := q.DialQuic(context.Background())
-	if err != nil {
-		log.Fatalf("DialQuic err = %v", err)
-	}
+	tracer.InitTracer(&tracer.ConfigTracer{ChBuffSize: chBuffSize, FlushTime: flushTime, ServiceName: serviceName}, q)
+	r := chi.NewRouter()
 
-	//r := chi.NewRouter()
-	//
-	//// A good base middleware stack
-	//r.Use(middleware.RequestID)
-	//r.Use(middleware.RealIP)
-	//r.Use(middleware.Logger)
-	//r.Use(middleware.Recoverer)
-	//
-	//// Set a timeout value on the request context (ctx), that will signal
-	//// through ctx.Done() that the request has timed out and further
-	//// processing should be stopped.
-	//r.Use(middleware.Timeout(60 * time.Second))
-	//
-	//r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-	//	w.Write([]byte("hi"))
-	//})
-	//
-	//http.ListenAndServe(":3333", r)
+	// A good base middleware stack
+	r.Use(middleware.RequestID)
+	r.Use(middleware.RealIP)
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
+	r.Use(tracer.TracerTopology)
+	// Set a timeout value on the request context (ctx), that will signal
+	// through ctx.Done() that the request has timed out and further
+	// processing should be stopped.
+	r.Use(middleware.Timeout(60 * time.Second))
+
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("hi"))
+	})
+
+	http.ListenAndServe(":3333", r)
 }
