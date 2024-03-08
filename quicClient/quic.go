@@ -1,22 +1,50 @@
 package quicClient
 
 import (
+	"GTMServer/etcd"
 	"context"
 	"crypto/tls"
 	"fmt"
 	"github.com/quic-go/quic-go"
+	clientv3 "go.etcd.io/etcd/client/v3"
 	"io"
 	"log"
+	"strings"
 )
 
+const serviceName = "GetRelation"
+
 type QClient struct {
-	TargetAddr string
+	*etcd.EtcdClient
 }
 
-func Initialize(address string) *QClient {
+func Initialize(address string, Etcd *etcd.EtcdClient) *QClient {
 	return &QClient{
-		TargetAddr: address,
+		EtcdClient: Etcd,
 	}
+}
+
+func (q *QClient) CheckService(serviceName string) (serviceAddress []string, err error) {
+	key := fmt.Sprintf("/services/%s", serviceName)
+	resp, err := q.Get(context.Background(), key, clientv3.WithPrefix())
+	if err != nil {
+		err = fmt.Errorf("get failed in Etcd,err=%v", err)
+		return
+	}
+	for _, ev := range resp.Kvs {
+		key := string(ev.Key)
+		lastSlashIndex := strings.LastIndex(key, "/")
+
+		// 取出最后一个 / 后面的内容
+		result := key[lastSlashIndex+1:]
+		serviceAddress = append(serviceAddress, result)
+	}
+	return
+}
+
+func (q *QClient) BLServiceChoice(services []string) string {
+	//TODO
+	return services[0]
 }
 
 func (q *QClient) DialQuic(ctx context.Context, data []byte) error {
@@ -38,11 +66,21 @@ func (q *QClient) DialQuic(ctx context.Context, data []byte) error {
 	//
 	//conn, err := tr.DialEarly(ctx, targetAddr, &tls.Config{}, nil)
 	//conn, err := tr.Dial(ctx, targetAddr, &tls.Config{}, nil)
+
+	//discover the services
+	address, err := q.CheckService(serviceName)
+	if err != nil {
+		log.Printf("CheckService err = %v", err)
+		return err
+	}
+	//choose one service through BalanceLoad
+	targetAddr := q.BLServiceChoice(address)
+
 	tlsConf := &tls.Config{
 		InsecureSkipVerify: true,
 		NextProtos:         []string{"quic"},
 	}
-	conn, err := quic.DialAddr(context.Background(), q.TargetAddr, tlsConf, nil)
+	conn, err := quic.DialAddr(context.Background(), targetAddr, tlsConf, nil)
 	if err != nil {
 		log.Printf("InitializeClient Dial err = %v", err)
 		return err

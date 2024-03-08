@@ -1,6 +1,7 @@
 package main
 
 import (
+	"GTMServer/etcd"
 	"GTMServer/quicClient"
 	"GTMServer/tracer"
 	"github.com/go-chi/chi/v5"
@@ -25,7 +26,12 @@ func main() {
 	//if err != nil {
 	//	panic(err)
 	//}
-	q = quicClient.Initialize("127.0.0.1:2234")
+	eConf := etcd.EtcdConfig{
+		Host:    []string{"127.0.0.1:2379"},
+		TimeOut: 5 * time.Second,
+	}
+	etcdClient := etcd.InitialEtcd(eConf)
+	q = quicClient.Initialize("127.0.0.1:2234", etcdClient)
 	tracer.InitTracer(&tracer.ConfigTracer{ChBuffSize: chBuffSize, FlushTime: flushTime, ServiceName: serviceName}, q)
 	r := chi.NewRouter()
 
