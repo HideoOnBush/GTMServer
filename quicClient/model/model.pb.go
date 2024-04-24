@@ -155,6 +155,108 @@ func (x *Line) GetVisitCount() int64 {
 	return 0
 }
 
+type LineReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Nums  int64     `protobuf:"varint,1,opt,name=nums,proto3" json:"nums,omitempty"`
+	Lines *LineList `protobuf:"bytes,2,opt,name=lines,proto3" json:"lines,omitempty"`
+}
+
+func (x *LineReq) Reset() {
+	*x = LineReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_quicClient_model_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *LineReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LineReq) ProtoMessage() {}
+
+func (x *LineReq) ProtoReflect() protoreflect.Message {
+	mi := &file_quicClient_model_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LineReq.ProtoReflect.Descriptor instead.
+func (*LineReq) Descriptor() ([]byte, []int) {
+	return file_quicClient_model_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *LineReq) GetNums() int64 {
+	if x != nil {
+		return x.Nums
+	}
+	return 0
+}
+
+func (x *LineReq) GetLines() *LineList {
+	if x != nil {
+		return x.Lines
+	}
+	return nil
+}
+
+type LineResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Msg string `protobuf:"bytes,1,opt,name=msg,proto3" json:"msg,omitempty"`
+}
+
+func (x *LineResp) Reset() {
+	*x = LineResp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_quicClient_model_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *LineResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LineResp) ProtoMessage() {}
+
+func (x *LineResp) ProtoReflect() protoreflect.Message {
+	mi := &file_quicClient_model_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LineResp.ProtoReflect.Descriptor instead.
+func (*LineResp) Descriptor() ([]byte, []int) {
+	return file_quicClient_model_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *LineResp) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
 type LineList struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -166,7 +268,7 @@ type LineList struct {
 func (x *LineList) Reset() {
 	*x = LineList{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_quicClient_model_proto_msgTypes[1]
+		mi := &file_quicClient_model_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -179,7 +281,7 @@ func (x *LineList) String() string {
 func (*LineList) ProtoMessage() {}
 
 func (x *LineList) ProtoReflect() protoreflect.Message {
-	mi := &file_quicClient_model_proto_msgTypes[1]
+	mi := &file_quicClient_model_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -192,7 +294,7 @@ func (x *LineList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LineList.ProtoReflect.Descriptor instead.
 func (*LineList) Descriptor() ([]byte, []int) {
-	return file_quicClient_model_proto_rawDescGZIP(), []int{1}
+	return file_quicClient_model_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *LineList) GetMessages() []*Line {
@@ -200,6 +302,61 @@ func (x *LineList) GetMessages() []*Line {
 		return x.Messages
 	}
 	return nil
+}
+
+type ErrorResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code    int64  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+}
+
+func (x *ErrorResp) Reset() {
+	*x = ErrorResp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_quicClient_model_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ErrorResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ErrorResp) ProtoMessage() {}
+
+func (x *ErrorResp) ProtoReflect() protoreflect.Message {
+	mi := &file_quicClient_model_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ErrorResp.ProtoReflect.Descriptor instead.
+func (*ErrorResp) Descriptor() ([]byte, []int) {
+	return file_quicClient_model_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ErrorResp) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ErrorResp) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
 }
 
 var File_quicClient_model_proto protoreflect.FileDescriptor
@@ -231,11 +388,21 @@ var file_quicClient_model_proto_rawDesc = []byte{
 	0x65, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x64, 0x65, 0x70, 0x65, 0x6e, 0x64, 0x65,
 	0x6e, 0x63, 0x65, 0x12, 0x1f, 0x0a, 0x0b, 0x76, 0x69, 0x73, 0x69, 0x74, 0x5f, 0x63, 0x6f, 0x75,
 	0x6e, 0x74, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0a, 0x76, 0x69, 0x73, 0x69, 0x74, 0x43,
-	0x6f, 0x75, 0x6e, 0x74, 0x22, 0x2d, 0x0a, 0x08, 0x4c, 0x69, 0x6e, 0x65, 0x4c, 0x69, 0x73, 0x74,
-	0x12, 0x21, 0x0a, 0x08, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03,
-	0x28, 0x0b, 0x32, 0x05, 0x2e, 0x4c, 0x69, 0x6e, 0x65, 0x52, 0x08, 0x6d, 0x65, 0x73, 0x73, 0x61,
-	0x67, 0x65, 0x73, 0x42, 0x12, 0x5a, 0x10, 0x71, 0x75, 0x69, 0x63, 0x43, 0x6c, 0x69, 0x65, 0x6e,
-	0x74, 0x2f, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6f, 0x75, 0x6e, 0x74, 0x22, 0x3e, 0x0a, 0x07, 0x4c, 0x69, 0x6e, 0x65, 0x52, 0x65, 0x71, 0x12,
+	0x12, 0x0a, 0x04, 0x6e, 0x75, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x04, 0x6e,
+	0x75, 0x6d, 0x73, 0x12, 0x1f, 0x0a, 0x05, 0x6c, 0x69, 0x6e, 0x65, 0x73, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x09, 0x2e, 0x4c, 0x69, 0x6e, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x05, 0x6c,
+	0x69, 0x6e, 0x65, 0x73, 0x22, 0x1c, 0x0a, 0x08, 0x4c, 0x69, 0x6e, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d,
+	0x73, 0x67, 0x22, 0x2d, 0x0a, 0x08, 0x4c, 0x69, 0x6e, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x21,
+	0x0a, 0x08, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x05, 0x2e, 0x4c, 0x69, 0x6e, 0x65, 0x52, 0x08, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x73, 0x22, 0x39, 0x0a, 0x09, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x12, 0x12,
+	0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x04, 0x63, 0x6f,
+	0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x42, 0x12, 0x5a, 0x10,
+	0x71, 0x75, 0x69, 0x63, 0x43, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x6d, 0x6f, 0x64, 0x65, 0x6c,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -250,18 +417,22 @@ func file_quicClient_model_proto_rawDescGZIP() []byte {
 	return file_quicClient_model_proto_rawDescData
 }
 
-var file_quicClient_model_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_quicClient_model_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_quicClient_model_proto_goTypes = []interface{}{
-	(*Line)(nil),     // 0: Line
-	(*LineList)(nil), // 1: LineList
+	(*Line)(nil),      // 0: Line
+	(*LineReq)(nil),   // 1: LineReq
+	(*LineResp)(nil),  // 2: LineResp
+	(*LineList)(nil),  // 3: LineList
+	(*ErrorResp)(nil), // 4: ErrorResp
 }
 var file_quicClient_model_proto_depIdxs = []int32{
-	0, // 0: LineList.messages:type_name -> Line
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	3, // 0: LineReq.lines:type_name -> LineList
+	0, // 1: LineList.messages:type_name -> Line
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_quicClient_model_proto_init() }
@@ -283,7 +454,43 @@ func file_quicClient_model_proto_init() {
 			}
 		}
 		file_quicClient_model_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*LineReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_quicClient_model_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*LineResp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_quicClient_model_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*LineList); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_quicClient_model_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ErrorResp); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -301,7 +508,7 @@ func file_quicClient_model_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_quicClient_model_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

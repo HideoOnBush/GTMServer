@@ -14,9 +14,11 @@ var (
 	q *quicClient.QClient
 )
 
-var chBuffSize int = 10
+const chBuffSize int = 10
+
 var flushTime time.Duration = 5 * time.Second
-var serviceName = "GTMServerTom"
+
+const serviceName = "GTMServerTom"
 
 func main() {
 	// We start a server echoing data on the first stream the client opens,
@@ -31,8 +33,8 @@ func main() {
 		TimeOut: 5 * time.Second,
 	}
 	etcdClient := etcd.InitialEtcd(eConf)
-	q = quicClient.Initialize("127.0.0.1:2234", etcdClient)
-	tracer.InitTracer(&tracer.ConfigTracer{ChBuffSize: chBuffSize, FlushTime: flushTime, ServiceName: serviceName}, q)
+	q = quicClient.Initialize("127.0.0.1:2234")
+	tracer.InitTracer(&tracer.ConfigTracer{ChBuffSize: chBuffSize, FlushTime: flushTime, ServiceName: serviceName}, q, etcdClient)
 	r := chi.NewRouter()
 
 	// A good base middleware stack
@@ -50,5 +52,5 @@ func main() {
 		w.Write([]byte("hi"))
 	})
 
-	http.ListenAndServe(":3333", r)
+	http.ListenAndServe("127.0.0.1:3333", r)
 }

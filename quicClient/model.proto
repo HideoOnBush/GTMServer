@@ -17,6 +17,20 @@ message Line {
   int64 visit_count = 12;
 }
 
+message LineReq {
+  int64 nums = 1;
+  LineList lines =2;
+}
+
+message LineResp {
+  string msg =1;
+}
+
 message LineList {
   repeated Line messages = 1;
+}
+
+message ErrorResp {
+  int64 code =1;
+  string message =2;
 }
